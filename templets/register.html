@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SkillSwap - Register</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
+
+body{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(-45deg,#2563eb,#7c3aed,#06b6d4,#1d4ed8);
+    background-size:400% 400%;
+    animation:gradientBG 12s ease infinite;
+    overflow:hidden;
+}
+
+@keyframes gradientBG{
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+}
+
+.circle{
+    position:absolute;
+    border-radius:50%;
+    background:rgba(255,255,255,0.15);
+}
+
+.circle:nth-child(1){
+    width:150px;
+    height:150px;
+    left:10%;
+    top:20%;
+}
+
+.circle:nth-child(2){
+    width:250px;
+    height:250px;
+    right:5%;
+    bottom:10%;
+}
+
+.circle:nth-child(3){
+    width:100px;
+    height:100px;
+    left:70%;
+    top:10%;
+}
+
+.container{
+    width:450px;
+    padding:40px;
+    border-radius:25px;
+    backdrop-filter:blur(20px);
+    background:rgba(255,255,255,0.15);
+    border:1px solid rgba(255,255,255,0.3);
+    box-shadow:0 20px 40px rgba(0,0,0,0.25);
+    color:white;
+}
+
+.brand-name{
+    font-size:48px;
+    font-weight:800;
+    text-align:center;
+    margin-bottom:10px;
+}
+
+.subtitle{
+    text-align:center;
+    color:#f1f5f9;
+    margin-bottom:35px;
+    font-size:18px;
+}
+
+label{
+    display:block;
+    margin-bottom:8px;
+    font-weight:600;
+}
+
+input{
+    width:100%;
+    padding:14px;
+    margin-bottom:20px;
+    border:none;
+    border-radius:12px;
+    background:rgba(255,255,255,0.2);
+    color:white;
+}
+
+input::placeholder{
+    color:#e5e7eb;
+}
+
+button{
+    width:100%;
+    padding:15px;
+    border:none;
+    border-radius:12px;
+    background:white;
+    color:#2563eb;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.login-link{
+    text-align:center;
+    margin-top:20px;
+}
+
+.login-link a{
+    color:white;
+    font-weight:bold;
+    text-decoration:none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="circle"></div>
+<div class="circle"></div>
+<div class="circle"></div>
+
+<div class="container">
+
+    <h1 class="brand-name">SkillSwap</h1>
+
+    <p class="subtitle">
+        Learn Skills. Teach Skills. Grow Together.
+    </p>
+
+    <form method="POST">
+
+        <label>Full Name</label>
+        <input type="text" name="full_name" placeholder="Enter your full name" required>
+
+        <label>Email Address</label>
+        <input type="email" name="email" placeholder="Enter your email" required>
+
+        <label>Password</label>
+        <input type="password" name="password" placeholder="Create a password" required>
+
+        <button type="submit">Create Account</button>
+
+    </form>
+
+    <div class="login-link">
+        Already have an account?
+        <a href="/login">Login</a>
+    </div>
+
+</div>
+
+</body>
+</html>

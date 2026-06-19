@@ -8,6 +8,131 @@
 
 <style>
 
+.connect-btn{
+    display:inline-block;
+    margin:10px 0;
+    padding:10px 18px;
+    background:#2563eb;
+    color:white;
+    text-decoration:none;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:600;
+}
+
+.connect-btn:hover{
+    background:#1d4ed8;
+}
+    
+.dashboard-section{
+    max-width:900px;
+    margin:30px auto;
+    background:white;
+    padding:30px;
+    border-radius:20px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.08);
+}
+
+.dashboard-section h2{
+    color:#2563eb;
+    margin-bottom:20px;
+}
+
+.form-row{
+    display:flex;
+    justify-content:center;
+    gap:15px;
+    flex-wrap:wrap;
+    margin-bottom:15px;
+}
+
+.form-row input,
+.form-row select{
+    padding:12px;
+    min-width:220px;
+    border:none;
+    background:#f3f4f6;
+    border-radius:10px;
+}
+
+.form-row button{
+    padding:12px 20px;
+    border:none;
+    border-radius:10px;
+    background:#2563eb;
+    color:white;
+    cursor:pointer;
+    font-weight:600;
+}
+
+.flash-message{
+    width:fit-content;
+    margin:20px auto;
+    padding:12px 25px;
+    border-radius:10px;
+    font-weight:600;
+}
+
+.success{
+    background:#dcfce7;
+    color:#166534;
+}
+
+.error{
+    background:#fee2e2;
+    color:#991b1b;
+}
+
+.stats-container{
+    display:flex;
+    justify-content:center;
+    gap:20px;
+    margin:30px 0;
+    flex-wrap:wrap;
+}
+
+.stat-card{
+    background:white;
+    padding:20px;
+    min-width:160px;
+    border-radius:15px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.08);
+}
+
+.stat-card h2{
+    color:#2563eb;
+    margin-bottom:5px;
+}
+
+.add-skill-section{
+    display:flex;
+    justify-content:center;
+    margin:30px 0;
+}
+
+.skill-form{
+    display:flex;
+    gap:15px;
+    flex-wrap:wrap;
+}
+
+.skill-form select{
+    padding:12px;
+    border-radius:10px;
+    border:none;
+    min-width:180px;
+}
+
+.skill-form button{
+    padding:12px 20px;
+    border:none;
+    border-radius:10px;
+    background:#2563eb;
+    color:white;
+    cursor:pointer;
+}
+
 *{
     margin:0;
     padding:0;
@@ -59,22 +184,30 @@ body{
 
 .cards{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
     gap:25px;
     padding:40px;
+    max-width:1400px;
+    margin:auto;
 }
 
 .card{
     background:white;
-    padding:30px;
-    border-radius:15px;
-    box-shadow:0 5px 15px rgba(0,0,0,0.08);
+    padding:25px;
+    border-radius:20px;
+    box-shadow:0 8px 20px rgba(0,0,0,0.08);
+    transition:0.3s;
 }
 
-.card h2{
-    color:#2563eb;
-    margin-bottom:10px;
+.card:hover{
+    transform:translateY(-5px);
 }
+
+.card h3{
+    color:#2563eb;
+    margin-bottom:15px;
+}
+
 
 </style>
 
@@ -107,27 +240,254 @@ body{
     Learn Skills. Teach Skills. Grow Together.
 </p>
 
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
 
-</section>
+        {% for category, message in messages %}
+
+            <div class="flash-message {{ category }}">
+                {{ message }}
+            </div>
+
+        {% endfor %}
+
+    {% endif %}
+{% endwith %}
+
+<div class="stats-container">
+
+    <div class="stat-card">
+        <h2>{{ total_teach }}</h2>
+        <p>Teaching Skills</p>
+    </div>
+
+    <div class="stat-card">
+        <h2>{{ total_learn }}</h2>
+        <p>Learning Skills</p>
+    </div>
+
+    <div class="stat-card">
+        <h2>{{ total_connections }}</h2>
+        <p>Connections</p>
+    </div>
+
+    <div class="stat-card">
+        <h2>{{ total_requests }}</h2>
+        <p>Requests</p>
+    </div>
+
+</div>
+
+
+<div class="dashboard-section">
+
+    <h2>Skill Management</h2>
+
+    <div class="form-row">
+
+        <form action="/create-skill" method="POST" class="skill-form">
+
+            <input
+                type="text"
+                name="skill_name"
+                placeholder="Enter New Skill"
+                required
+            >
+
+            <button type="submit">
+                Add New Skill
+            </button>
+
+        </form>
+
+    </div>
+
+    <div class="form-row">
+
+        <form action="/add-skill" method="POST" class="skill-form">
+
+            <select name="skill_id" required>
+
+                <option value="">Select Skill</option>
+
+                {% for skill in all_skills %}
+                <option value="{{ skill.skill_id }}">
+                    {{ skill.skill_name }}
+                </option>
+                {% endfor %}
+
+            </select>
+
+            <select name="skill_type" required>
+
+                <option value="">Choose Type</option>
+                <option value="teach">Teach</option>
+                <option value="learn">Learn</option>
+
+            </select>
+
+            <button type="submit">
+                Add Skill
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+<div class="dashboard-section">
+
+    <h2>Find Teachers</h2>
+
+    <div class="form-row">
+
+        <form action="/find-teachers" method="POST" class="skill-form">
+
+            <select name="skill_id" required>
+
+                <option value="">Select Skill</option>
+
+                {% for skill in all_skills %}
+                <option value="{{ skill.skill_id }}">
+                    {{ skill.skill_name }}
+                </option>
+                {% endfor %}
+
+            </select>
+
+            <button type="submit">
+                Search Teachers
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
 
 <section class="cards">
 
-
 <div class="card">
-    <h2>Skills I Can Teach</h2>
-    <p>No skills added yet.</p>
+    <h3>Skills I Can Teach</h3>
+
+<ul>
+{% for skill in teach_skills %}
+    <li>{{ skill.skill_name }}</li>
+{% endfor %}
+</ul>
 </div>
 
 <div class="card">
-    <h2>Skills I Want To Learn</h2>
-    <p>No skills added yet.</p>
+    <h3>Skills I Want To Learn</h3>
+
+<ul>
+{% for skill in learn_skills %}
+    <li>{{ skill.skill_name }}</li>
+{% endfor %}
+</ul>
 </div>
 
 <div class="card">
-    <h2>My Profile</h2>
-    <p>Manage your learning journey.</p>
+    <h3>My Profile</h3>
+    
+<a href="/profile" class="connect-btn">
+    View Full Profile →
+</a>
+<p><strong>Name:</strong> {{ user.full_name }}</p>
+
+<p><strong>Email:</strong> {{ user.email }}</p>
+
+<p><strong>Teaching:</strong> {{ teach_skills|length }}</p>
+
+<p><strong>Learning:</strong> {{ learn_skills|length }}</p>
 </div>
 
+<div class="card">
+
+    <h3>Incoming Requests</h3>
+
+    {% for request in requests %}
+
+        <p>
+            <strong>{{ request.full_name }}</strong>
+            wants to learn
+            <strong>{{ request.skill_name }}</strong>
+        </p>
+
+        <p>
+            Status: {{ request.status }}
+        </p>
+
+        {% if request.status == 'pending' %}
+
+<div style="display:flex; gap:10px; margin-top:10px;">
+
+    <form action="/accept-request" method="POST">
+
+        <input type="hidden"
+               name="request_id"
+               value="{{ request.request_id }}">
+
+        <button type="submit" class="connect-btn">
+            Accept
+        </button>
+
+    </form>
+
+    <form action="/reject-request" method="POST">
+
+        <input type="hidden"
+               name="request_id"
+               value="{{ request.request_id }}">
+
+        <button type="submit"
+                style="padding:10px 20px;
+                       background:#ef4444;
+                       color:white;
+                       border:none;
+                       border-radius:8px;
+                       cursor:pointer;">
+            Reject
+        </button>
+
+    </form>
+
+</div>
+
+{% endif %}
+
+        <hr>
+
+    {% endfor %}
+
+</div>
+
+<div class="card">
+
+    <h3>My Connections</h3>
+
+    {% for connection in connections %}
+
+        <p>
+            <strong>{{ connection.full_name }}</strong>
+        </p>
+
+        <p>
+            {{ connection.email }}
+        </p>
+
+        <p>
+            Skill: {{ connection.skill_name }}
+        </p>
+
+        <hr>
+
+    {% endfor %}
+
+</div>
 
 </section>
 

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Available Teachers</title>
+
+    <style>
+
+.connect-btn{
+    margin-top:15px;
+    padding:10px 20px;
+    background:#2563eb;
+    color:white;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:600;
+}
+
+.connect-btn:hover{
+    background:#1d4ed8;
+}
+
+    body{
+        font-family:'Segoe UI',sans-serif;
+        background:#f3f4f6;
+        padding:40px;
+    }
+
+    h1{
+        text-align:center;
+        margin-bottom:30px;
+    }
+
+    .teacher-card{
+        background:white;
+        padding:20px;
+        margin:15px auto;
+        max-width:600px;
+        border-radius:12px;
+        box-shadow:0 5px 15px rgba(0,0,0,0.08);
+    }
+
+    .teacher-card h2{
+        color:#2563eb;
+        margin-bottom:10px;
+    }
+
+    .back-btn{
+        display:block;
+        width:200px;
+        margin:30px auto;
+        text-align:center;
+        background:#2563eb;
+        color:white;
+        text-decoration:none;
+        padding:12px;
+        border-radius:10px;
+    }
+
+    </style>
+
+</head>
+<body>
+
+<h1>
+    Teachers Found For {{ teachers[0].skill_name if teachers else 'Skill' }}
+</h1>
+
+{% for teacher in teachers %}
+
+<div class="teacher-card">
+
+    <h2>{{ teacher.full_name }}</h2>
+
+    <p><strong>Skill:</strong> {{ teacher.skill_name }}</p>
+
+    <p><strong>Email:</strong> {{ teacher.email }}</p>
+
+  <form action="/send-request" method="POST">
+
+    <input type="hidden"
+           name="teacher_id"
+           value="{{ teacher.user_id }}">
+
+    <input type="hidden"
+           name="skill_id"
+           value="{{ teacher.skill_id }}">
+
+    <button type="submit" class="connect-btn">
+        Connect
+    </button>
+
+</form>
+
+</div>
+
+{% endfor %}
+
+<a href="/dashboard" class="back-btn">
+    Back to Dashboard
+</a>
+
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>My Profile</title>
+
+<style>
+
+body{
+    font-family:'Segoe UI',sans-serif;
+    background:#f3f4f6;
+    padding:40px;
+}
+
+.profile-card{
+    max-width:800px;
+    margin:auto;
+    background:white;
+    padding:40px;
+    border-radius:15px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.08);
+}
+
+h1{
+    color:#2563eb;
+    margin-bottom:20px;
+}
+
+.section{
+    margin-top:25px;
+}
+
+.back-btn{
+    display:inline-block;
+    margin-top:30px;
+    padding:12px 20px;
+    background:#2563eb;
+    color:white;
+    text-decoration:none;
+    border-radius:10px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="profile-card">
+
+<h1>{{ user.full_name }}</h1>
+
+<p><strong>Email:</strong> {{ user.email }}</p>
+
+<p>
+<strong>Total Connections:</strong>
+{{ connection_count.total }}
+</p>
+
+<div class="section">
+
+<h2>Skills I Teach</h2>
+
+<ul>
+{% for skill in teach_skills %}
+<li>{{ skill.skill_name }}</li>
+{% endfor %}
+</ul>
+
+</div>
+
+<div class="section">
+
+<h2>Skills I Learn</h2>
+
+<ul>
+{% for skill in learn_skills %}
+<li>{{ skill.skill_name }}</li>
+{% endfor %}
+</ul>
+
+</div>
+
+<a href="/dashboard" class="back-btn">
+Back to Dashboard
+</a>
+
+</div>
+
+</body>
+</html>
